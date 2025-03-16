@@ -1,0 +1,712 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmic Portal Portfolio</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Raleway:wght@300;400;600&display=swap');
+        
+        :root {
+            --primary-color: #0a192f;
+            --secondary-color: #172a45;
+            --accent-color: #64ffda;
+            --text-color: #e6f1ff;
+            --portal-color1: rgba(138, 43, 226, 0.8);
+            --portal-color2: rgba(75, 0, 130, 0.7);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Raleway', sans-serif;
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: rgba(10, 25, 47, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(100, 255, 218, 0.1);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 0;
+        }
+        
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-icon {
+            margin-right: 10px;
+            font-size: 2rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 2rem;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-size: 1rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 6rem 0;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            position: absolute;
+            width: 100%;
+            top: 0;
+            left: 0;
+        }
+        
+        section.active {
+            opacity: 1;
+            z-index: 1;
+            position: relative;
+        }
+        
+        h1, h2, h3 {
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, var(--accent-color), #9d00ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--accent-color);
+        }
+        
+        h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+        
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            max-width: 600px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            background-color: transparent;
+            border: 2px solid var(--accent-color);
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            margin-right: 1rem;
+            margin-top: 1rem;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 100%;
+            background-color: var(--accent-color);
+            transition: all 0.3s ease;
+            z-index: -1;
+        }
+        
+        .btn:hover {
+            color: var(--primary-color);
+        }
+        
+        .btn:hover::before {
+            width: 100%;
+        }
+        
+        .highlight {
+            color: var(--accent-color);
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .card {
+            background-color: var(--secondary-color);
+            border-radius: 8px;
+            padding: 2rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(100, 255, 218, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right, var(--accent-color), #9d00ff);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .card h3 {
+            margin-bottom: 1rem;
+        }
+        
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .skill-tag {
+            background-color: rgba(100, 255, 218, 0.1);
+            color: var(--accent-color);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .contact-form {
+            display: grid;
+            gap: 1.5rem;
+            max-width: 600px;
+            margin-top: 2rem;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        label {
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        input, textarea {
+            padding: 0.8rem;
+            background-color: var(--secondary-color);
+            border: 1px solid rgba(100, 255, 218, 0.3);
+            border-radius: 4px;
+            color: var(--text-color);
+            font-family: 'Raleway', sans-serif;
+            transition: border-color 0.3s ease;
+        }
+        
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+        
+        textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .social-link {
+            color: var(--text-color);
+            font-size: 1.5rem;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+        
+        .social-link:hover {
+            color: var(--accent-color);
+            transform: translateY(-5px);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            background-color: var(--secondary-color);
+            position: relative;
+            z-index: 10;
+        }
+        
+        /* Portal Effect */
+        .portal-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .portal-container.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .portal-video-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            opacity: 0;
+            transition: opacity 1s ease;
+            transform: scale(0);
+            border-radius: 50%;
+        }
+        
+        .portal-video-container.active {
+            opacity: 1;
+            transform: scale(1.5);
+            border-radius: 0;
+            transition: opacity 1s ease, transform 2s ease, border-radius 2s ease;
+        }
+        
+        .portal-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translate(-50%, -50%) scale(1.5);
+            object-fit: cover;
+        }
+        
+        .portal-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 4px solid transparent;
+            animation: rotate 10s linear infinite;
+        }
+        
+        .portal-ring-1 {
+            width: 200px;
+            height: 200px;
+            border-top-color: var(--portal-color1);
+            border-bottom-color: var(--portal-color2);
+            animation-duration: 8s;
+        }
+        
+        .portal-ring-2 {
+            width: 300px;
+            height: 300px;
+            border-left-color: var(--portal-color1);
+            border-right-color: var(--portal-color2);
+            animation-duration: 12s;
+            animation-direction: reverse;
+        }
+        
+        .portal-ring-3 {
+            width: 400px;
+            height: 400px;
+            border-top-color: var(--portal-color2);
+            border-right-color: var(--portal-color1);
+            animation-duration: 15s;
+        }
+        
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .portal-glow {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(138, 43, 226, 0.8) 0%, rgba(75, 0, 130, 0) 70%);
+            border-radius: 50%;
+            animation: pulse 3s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+            50% {
+                transform: scale(1.5);
+                opacity: 0.5;
+            }
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            h2 {
+                font-size: 2rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">
+                    <span class="logo-icon">⚛️</span>
+                    <span>ADITYA</span>
+                </a>
+                <ul class="nav-links">
+                    <li><a href="#home" class="nav-link" data-section="home">Home</a></li>
+                    <li><a href="#about" class="nav-link" data-section="about">About</a></li>
+                    <li><a href="#projects" class="nav-link" data-section="projects">Projects</a></li>
+                    <li><a href="#contact" class="nav-link" data-section="contact">Contact</a></li>
+                    <li><a href="#certifications" class="nav-link" data-section="certifications">Certifications</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="home" class="active">
+        <div class="container">
+            <h3>Hi, I am Aditya Sharma</h3>
+            <h1>Home</h1>
+            <p>Hi, I'm Aditya Sharma.  
+                Aspiring Web Developer & Tech Enthusiast.</p>
+                
+                
+            <p>I love building creative websites, learning new tech, and solving real-world problems.  
+                Explore my work and get to know more about me!</p>
+            <a href="#about" class="btn nav-link" data-section="about">Enter the Portal</a>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="container">
+            <h2>About Me</h2>
+            <p>Hey there! I'm Aditya Sharma,<span class="highlight">a Computer Science student with a passion for Web Development</span>, AI, and problem-solving.  
+                I enjoy crafting beautiful and functional websites, learning cutting-edge technologies, and creating solutions that make an impact.  
+                
+                Currently, I’m exploring front-end and back-end development, with hands-on projects in HTML, CSS, JavaScript, and Python. I’m also diving into Machine Learning and AI because I love combining creativity with logic.</p>
+            <p>When I’m not coding, you’ll find me exploring new games, tech trends, or just walking to refresh my mind.  
+
+                Let’s connect and build something awesome together!</p>
+            <div class="grid">
+                <div class="card">
+                    <h3>Skills</h3>
+                    <p>My technical toolkit spans multiple dimensions of digital creation.</p>
+                    <div class="skills-list">
+                        <span class="skill-tag">HTML/CSS</span>
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">React</span>
+                        <span class="skill-tag">Three.js</span>
+                        <span class="skill-tag">WebGL</span>
+                        <span class="skill-tag">UI/UX Design</span>
+                        <span class="skill-tag">3D Modeling</span>
+                        <span class="skill-tag">Animation</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Experience</h3>
+                    <p>I've collaborated with innovative companies and created independent projects that push the boundaries of web experiences.</p>
+                    <p>My work has been featured in digital art exhibitions and recognized for its creative approach to interactive storytelling.</p>
+                </div>
+            </div>
+            <a href="#projects" class="btn nav-link" data-section="projects">View My Projects</a>
+        </div>
+    </section>
+
+    <section id="projects">
+        <div class="container">
+            <h2>Featured Projects</h2>
+            <p>Explore a collection of my most innovative and immersive digital experiences.</p>
+            <div class="grid">
+                <div class="card">
+                    <h3>Quantum Visualizer</h3>
+                    <p>An interactive web application that visualizes quantum mechanics principles through immersive 3D animations.</p>
+                    <div class="skills-list">
+                        <span class="skill-tag">Three.js</span>
+                        <span class="skill-tag">WebGL</span>
+                        <span class="skill-tag">React</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Dimensional Gallery</h3>
+                    <p>A virtual art gallery that uses portal-like transitions to move between exhibition spaces, showcasing digital artwork in a unique way.</p>
+                    <div class="skills-list">
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">GSAP</span>
+                        <span class="skill-tag">Canvas API</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Cosmic Pathfinder</h3>
+                    <p>An experimental navigation system that uses celestial mechanics to guide users through content in a non-linear, exploratory way.</p>
+                    <div class="skills-list">
+                        <span class="skill-tag">SVG</span>
+                        <span class="skill-tag">D3.js</span>
+                        <span class="skill-tag">Motion Design</span>
+                    </div>
+                </div>
+            </div>
+            <a href="#contact" class="btn nav-link" data-section="contact">Contact Me</a>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="container">
+            <h2>Contact</h2>
+            <p>Interested in collaborating or have questions about my work? Send a message through the cosmic communication channel.</p>
+            <form class="contact-form">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" placeholder="Your name">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="Your email">
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" placeholder="Your message"></textarea>
+                </div>
+                <button type="submit" class="btn">Send Message</button>
+            </form>
+            <div class="social-links">
+                <a href="#" class="social-link">📱</a>
+                <a href="#" class="social-link">💻</a>
+                <a href="#" class="social-link">📷</a>
+                <a href="#" class="social-link">🎮</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <section id="certifications">
+            <div class="container">
+                <h2>Certifications</h2>
+                <p>Here are my certifications:</p>
+                <div class="grid">
+                    <div class="card">
+                        <h3>Automate-Cyber-Security-Task-using-Python</h3>
+                        <img src="certificates/Automate-Cyber-Security-Task-using-Python.png" alt="Automate-Cyber-Security-Task-using-Python Certificate" class="certificate-image" style="max-width: 100%; height: auto;">
+                        <button class="btn" onclick="window.location.href='certificates/Automate-Cyber-Security-Task-using-Python.png'">Download Certificate</button>
+                    </div>
+                    <div class="card">
+                        <h3>Crash-Course-on-Python</h3>
+                        <img src="certificates/Crash-Course-on-Python.png" alt="Crash-Course-on-Python Certificate" class="certificate-image" style="max-width: 100%; height: auto;">
+                        <button class="btn" onclick="window.location.href='certificates/Crash-Course-on-Python.png'">Download Certificate</button>
+                    </div>
+                    <div class="card">
+                        <h3>Data-Science-and-Math-Skills</h3>
+                        <img src="certificates/Data-Science-and-Math-Skills.png" alt="Data-Science-and-Math-Skills Certificate" class="certificate-image" style="max-width: 100%; height: auto;">
+                        <button class="btn" onclick="window.location.href='certificates/Data-Science-and-Math-Skills.png'">Download Certificate</button>
+                    </div>
+                    <div class="card">
+                        <h3>Intro-to-Front-End-Development</h3>
+                        <img src="certificates/Intro-to-Front-End-Development.png" alt="Intro-to-Front-End-Development Certificate" class="certificate-image" style="max-width: 100%; height: auto;">
+                        <button class="btn" onclick="window.location.href='certificates/Intro-to-Front-End-Development.png'">Download Certificate</button>
+                    </div>
+                    <div class="card">
+                        <h3>Intro-to-Web-Development</h3>
+                        <img src="certificates/Intro-to-Web-Development.png" alt="Intro-to-Web-Development Certificate" class="certificate-image" style="max-width: 100%; height: auto;">
+                        <button class="btn" onclick="window.location.href='certificates/Intro-to-Web-Development.png'">Download Certificate</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="container">
+            <p>© 2025 Cosmic Portal Portfolio. All dimensions reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Portal Effect Container -->
+    <div class="portal-container">
+        <div class="portal-video-container">
+            <video class="portal-video" loop muted>
+                <source src="portal_video.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="portal-ring portal-ring-1"></div>
+        <div class="portal-ring portal-ring-2"></div>
+        <div class="portal-ring portal-ring-3"></div>
+        <div class="portal-glow"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('section');
+            sections.forEach(section => {
+                section.style.opacity = '0'; // Set initial opacity to 0 for fade-out effect
+            });
+            const navLinks = document.querySelectorAll('.nav-link');
+            const portalContainer = document.querySelector('.portal-container');
+            const portalVideoContainer = document.querySelector('.portal-video-container');
+            const portalVideo = document.querySelector('.portal-video');
+            
+            let currentSection = 'home';
+            let isTransitioning = false;
+            
+            // Initialize - show home section
+            showSection('home');
+            
+            // Add click event listeners to navigation links
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    if (isTransitioning) return;
+                    
+                    const targetSection = this.getAttribute('data-section');
+                    
+                    if (targetSection === currentSection) return;
+                    
+                    isTransitioning = true;
+                    activatePortal(targetSection);
+                });
+            });
+            
+            // Function to show a specific section
+            function showSection(sectionId) {
+                sections.forEach(section => {
+                    section.classList.remove('active');
+                });
+                
+                document.getElementById(sectionId).classList.add('active');
+                document.getElementById(sectionId).style.opacity = '1'; // Fade-in effect
+                currentSection = sectionId;
+            }
+            
+            // Function to activate the portal effect
+            function activatePortal(targetSection) {
+                // Show portal container
+                portalContainer.classList.add('active');
+                
+                // Start the video and show it
+                portalVideo.currentTime = 0;
+                portalVideo.play();
+                portalVideoContainer.classList.add('active');
+                
+                // After portal animation completes, change section
+                setTimeout(() => {
+                    sections.forEach(section => {
+                        section.style.opacity = '0'; // Fade-out effect
+                    });
+                    setTimeout(() => {
+                        showSection(targetSection);
+                    }, 500); // Wait for fade-out before showing the new section
+                    
+                    // Hide portal after section change
+                    setTimeout(() => {
+                        portalVideoContainer.classList.remove('active');
+                        portalContainer.classList.remove('active');
+                        portalVideo.pause();
+                        isTransitioning = false;
+                    }, 1000);
+                }, 1500);
+            }
+        });
+    </script>
+</body>
+</html>
